@@ -1,0 +1,61 @@
+name: "Build & Deploy to Itch.io"
+on:
+  push:
+    branches:
+      - main  
+
+env:
+  GODOT_VERSION: "4.7.2"
+  ITCH_USERNAME: "averagestonksenjoyer"
+  ITCH_GAME_SLUG: "shifting-shifts"
+
+jobs:
+  export-and-deploy:
+    runs-on: ubuntu-latest
+    name: Export and Publish Game
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # 1. Export the game using a Godot CI Action
+      - name: Godot Export
+        uses: firebelley/godot-export@v5.2.1
+        with:
+          godot_version: ${{ env.GODOT_VERSION }}
+          download_templates: true
+          export_presets: |
+            Windows
+            Linux
+            Web
+          # Optional: Moves build artifacts into a specific directory
+          relative_project_path: "./"
+
+      # Deploy Windows
+      - name: Deploy Windows to Itch
+        uses: JosephMayrish/butler-publish-action@v1.2.1
+        with:
+          api_key: ${{ secrets.BUTLER_API_KEY }}
+          user: ${{ env.ITCH_USERNAME }}
+          game: ${{ env.ITCH_GAME_SLUG }}
+          channel: windows-zip
+          file: ~/.local/share/godot/builds/Windows.zip
+
+      # Deploy Linux
+      - name: Deploy Linux to Itch
+        uses: JosephMayrish/butler-publish-action@v1.2.1
+        with:
+          api_key: ${{ secrets.BUTLER_API_KEY }}
+          user: ${{ env.ITCH_USERNAME }}
+          game: ${{ env.ITCH_GAME_SLUG }}
+          channel: linux-zip
+          file: ~/.local/share/godot/builds/Linux.zip
+
+      # Deploy Web
+      - name: Deploy Web to Itch
+        uses: JosephMayrish/butler-publish-action@v1.2.1
+        with:
+          api_key: ${{ secrets.BUTLER_API_KEY }}
+          user: ${{ env.ITCH_USERNAME }}
+          game: ${{ env.ITCH_GAME_SLUG }}
+          channel: html5
+          file: ~/.local/share/godot/builds/Web.zip
