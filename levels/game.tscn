@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://8lqyhac8bxyi"]
+
+[ext_resource type="PackedScene" uid="uid://cli03pg3qvm0" path="res://modules/player/player.tscn" id="1_m637p"]
+[ext_resource type="PackedScene" uid="uid://mm0igrkr7gfa" path="res://levels/objects/block.tscn" id="2_od3m6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dea70"]
+size = Vector2(64, 64)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m637p"]
+albedo_color = Color(0.627451, 0.75686276, 0.7764706, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dea70"]
+size = Vector3(64, 1, 64)
+
+[node name="Game" type="Node3D" unique_id=1966977553]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=947253229]
+mesh = SubResource("PlaneMesh_dea70")
+surface_material_override/0 = SubResource("StandardMaterial3D_m637p")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=398999896]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=2115000419]
+shape = SubResource("BoxShape3D_dea70")
+
+[node name="Player" parent="." unique_id=2083770502 instance=ExtResource("1_m637p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6598697, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1493970760]
+transform = Transform3D(1, 0, 0, 0, -0.64278764, 0.76604444, 0, -0.76604444, -0.64278764, 0, 13.634539, -16.795218)
+
+[node name="Blocks" type="Node3D" parent="." unique_id=1906249827]
+
+[node name="Block" parent="Blocks" unique_id=541998181 instance=ExtResource("2_od3m6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.870692, 1.730897, -1.6814327)

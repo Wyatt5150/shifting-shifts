@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cli03pg3qvm0"]
+
+[ext_resource type="Script" uid="uid://b5yue83wcmsr1" path="res://modules/player/player_controller.gd" id="1_rqo18"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dea70"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dea70"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cf776"]
+radius = 0.125
+height = 0.8
+
+[node name="Player" type="CharacterBody3D" unique_id=1920328202]
+script = ExtResource("1_rqo18")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=246088860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_dea70")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1853705309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_dea70")
+
+[node name="Head" type="Node3D" parent="." unique_id=996775024]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="VHead" type="Node3D" parent="Head" unique_id=696213371]
+unique_name_in_owner = true
+
+[node name="FirstPersonCamera" type="Camera3D" parent="Head/VHead" unique_id=935085479]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.29050303)
+
+[node name="Nose" type="MeshInstance3D" parent="Head/VHead" unique_id=1723246877]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.29050303)
+mesh = SubResource("CapsuleMesh_cf776")
